@@ -1,0 +1,19 @@
+{
+  "name": "@galaxy-graph/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "galaxy-graph": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@galaxy-graph/adapters": "0.1.0",
+    "@galaxy-graph/core": "0.1.0"
+  }
+}

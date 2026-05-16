@@ -1,0 +1,165 @@
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  color: #e8e8f0;
+  font: 13px/1.4 -apple-system, "SF Pro Text", system-ui, sans-serif;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #0a1220 0%, #04060c 70%, #02030a 100%);
+}
+
+* { box-sizing: border-box; }
+
+.panel {
+  position: absolute;
+  z-index: 10;
+  padding: 14px 18px;
+  background: rgba(12, 16, 26, 0.78);
+  border: 1px solid #232838;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(123, 164, 201, 0.35) transparent;
+}
+
+.panel::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.panel::-webkit-scrollbar-thumb {
+  background: rgba(123, 164, 201, 0.28);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(123, 164, 201, 0.55);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.panel::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: .3px; color: #e6e9f5; font-weight: 600; }
+h2 { margin: 4px 0 2px; font-size: 13px; letter-spacing: .8px; text-transform: uppercase; color: #c2c7d8; font-weight: 500; }
+
+.big {
+  font: 600 44px/1 -apple-system, "SF Pro Display", system-ui, sans-serif;
+  letter-spacing: -1.5px;
+  margin: 6px 0 4px;
+}
+.big .pct { font-size: 22px; color: #a8aec1; margin-left: 4px; letter-spacing: 0; }
+
+.status-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.muted { color: #b0b6c9; }
+.row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.swatch { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+label { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; margin: 3px 0; }
+hr { border: none; border-top: 1px solid #232838; margin: 10px 0; }
+kbd { background: #1c2030; border: 1px solid #333a4d; border-radius: 3px;
+      padding: 1px 5px; font: 11px ui-monospace, monospace; }
+
+.stat { display: inline-block; margin-right: 12px; color: #b8bdce; }
+.stat b { color: #fff; font-weight: 600; }
+
+.svc-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 6px;
+  margin: 0 -6px;
+  border-radius: 4px;
+  border-bottom: 1px dashed #232838;
+  font-size: 12px;
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+.svc-line:last-child { border-bottom: none; }
+.svc-name { color: #cfd3e2; }
+.svc-score { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.svc-line[role="button"] { outline: none; }
+.svc-line[role="button"]:hover { background: rgba(84, 193, 255, 0.08); }
+.svc-line[role="button"]:focus-visible {
+  background: rgba(84, 193, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(84, 193, 255, 0.55);
+}
+.svc-line[role="button"]:active { background: rgba(84, 193, 255, 0.18); }
+
+h2[role="button"] {
+  padding: 2px 6px;
+  margin-left: -6px;
+  margin-right: -6px;
+  border-radius: 4px;
+  outline: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+h2[role="button"]:hover { background: rgba(255, 255, 255, 0.04); color: #ffffff; }
+h2[role="button"]:focus-visible {
+  background: rgba(84, 193, 255, 0.10);
+  box-shadow: 0 0 0 2px rgba(84, 193, 255, 0.55);
+}
+
+/* Hide the native disclosure marker on every <details> in the app — we
+   render our own chevron inside <summary>. Inline `list-style: none` only
+   covers Firefox; Safari needs the webkit pseudo, Chrome respects either. */
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::marker { display: none; }
+
+/* Custom tooltip on architecture badges. The native `title=` attribute
+   has too long a delay and no styling — we want hover-instant rich
+   tooltips that explain why each property matters. */
+.badge {
+  position: relative;
+  display: inline-flex;
+}
+.badge-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  /* Anchor to the badge's LEFT edge, not its centre. The InfoCard panel
+     has overflow-y: auto, which forces overflow-x: auto too, so a
+     centred tooltip on a left-side badge gets clipped against the
+     panel's left edge. Left-anchoring keeps the tooltip flowing right
+     where the panel has room. Up to ~3 badges per row stay within the
+     ~420px content width with the 240px tooltip. */
+  left: 0;
+  width: 240px;
+  padding: 8px 10px;
+  background: rgba(12, 16, 26, 0.96);
+  border: 1px solid #2a3042;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  color: #cfd3e2;
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  z-index: 20;
+  white-space: normal;
+}
+.badge-tip-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+.badge:hover .badge-tip,
+.badge:focus-within .badge-tip { opacity: 1; }
