@@ -40,7 +40,7 @@ Galaxy Graph turns those signals into a navigable architecture map. Core renderi
 ## Quick start
 
 ```bash
-git clone https://github.com/BenSheridanEdwards/galaxy-graph.git
+git clone https://github.com/BenSheridanEdwards/GalaxyGraph.git
 cd galaxy-graph
 npm ci
 npm run build

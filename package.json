@@ -30,11 +30,11 @@
   "author": "Ben Sheridan Edwards",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BenSheridanEdwards/galaxy-graph.git"
+    "url": "https://github.com/BenSheridanEdwards/GalaxyGraph.git"
   },
-  "homepage": "https://github.com/BenSheridanEdwards/galaxy-graph#readme",
+  "homepage": "https://github.com/BenSheridanEdwards/GalaxyGraph#readme",
   "bugs": {
-    "url": "https://github.com/BenSheridanEdwards/galaxy-graph/issues"
+    "url": "https://github.com/BenSheridanEdwards/GalaxyGraph/issues"
   },
   "keywords": [
     "architecture",
