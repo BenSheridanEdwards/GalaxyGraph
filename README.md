@@ -1,64 +1,154 @@
 # Galaxy Graph
 
-Open-source backend visualization for test confidence, service intent, mutation coverage, and cross-service contracts.
+<div align="center">
 
-Galaxy Graph turns a backend into an interactive 3D map:
+**Backend architecture, service intent, test confidence, contracts, events, and mutation score — rendered as an interactive galaxy.**
 
-- services as suns
-- endpoints as orbiting capabilities
-- tests as confidence satellites
-- event topics and cross-service contracts as visible bonds
-- Stryker mutation reports as risk/confidence overlays
-- JSDoc/TSDoc annotations as semantic product intent
+[![CI](https://img.shields.io/badge/CI-ready%20when%20GitHub%20repo%20exists-2ea44f)](#verification)
+[![npm](https://img.shields.io/badge/npm-pre--publish-orange)](#packages)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
+[![Adapters](https://img.shields.io/badge/adapters-Encore%20%7C%20Stryker%20%7C%20JSDoc-7c3aed)](#adapters)
 
-The core renderer is backend-agnostic. Backends plug in through adapters that emit the normalized `GalaxyGraphDataset` schema.
+</div>
+
+![Galaxy Graph public-safe demo](docs/assets/galaxy-graph-demo.png)
+
+> **Status:** pre-public beta. The repo is now package-shaped, tested, documented, and CI-ready locally, but GitHub/npm publishing still needs explicit maintainer approval.
+
+## Why this exists
+
+Modern backend systems hide important product knowledge in places that are hard to scan together:
+
+- framework service declarations;
+- endpoint handlers;
+- cross-service contracts;
+- event topics;
+- test names and stories;
+- mutation testing reports;
+- JSDoc/TSDoc intent comments.
+
+Galaxy Graph turns those signals into a navigable architecture map. Core rendering stays backend-agnostic; adapters convert source trees and reports into a normalized dataset.
 
 ## Packages
 
-- `@galaxy-graph/core` — React + Three.js/3d-force-graph renderer and normalized schema.
-- `@galaxy-graph/adapters` — adapter interfaces plus initial Encore.dev, Stryker, and JSDoc/TSDoc extraction helpers.
-- `@galaxy-graph/cli` — `galaxy-graph generate` command for producing graph JSON.
+- `@galaxy-graph/core` — React + Three.js graph renderer, normalized schema, and public-safe sample data.
+- `@galaxy-graph/adapters` — Encore, Stryker, and semantic JSDoc/TSDoc extraction utilities.
+- `@galaxy-graph/cli` — `galaxy-graph generate` command for producing graph JSON from a repo.
+- `@galaxy-graph/example-basic` — minimal Vite app that renders the sample graph.
 
-## Current adapter status
-
-The first adapter targets Encore.dev TypeScript backends and optional Stryker mutation reports. It is intentionally split from the renderer so additional adapters can be added for Express, NestJS, Fastify, FastAPI, Django, Go, OpenAPI, GraphQL, or any custom backend.
-
-## Semantic docs convention
-
-Galaxy Graph understands these optional JSDoc/TSDoc tags:
-
-- `@summary` — concise service/endpoint/contract purpose.
-- `@why` — architectural reason or business intent.
-- `@flow` — numbered flow through services/events.
-- `@since` — lifecycle/version context.
-- `@story` — test story in human language.
-- `@category` — test/contract bucket such as `contract`, `edge-case`, `resilience`, `error`, `behaviour`.
-
-Later, an AI-assisted CLI can propose or update these docs before graph generation.
-
-## Usage sketch
+## Quick start
 
 ```bash
-npm install
+git clone https://github.com/BenSheridanEdwards/galaxy-graph.git
+cd galaxy-graph
+npm ci
 npm run build
-npx galaxy-graph generate --adapter encore --root ../Oneness-Platform --out graph.json
+npm test
+npm run dev
 ```
 
+Open the Vite URL printed by `npm run dev` to view the sample galaxy.
+
+## CLI usage
+
+Generate a normalized dataset from an Encore backend:
+
+```bash
+npx galaxy-graph generate \
+  --adapter encore \
+  --root /path/to/your/repo \
+  --out galaxy-graph.json
+```
+
+Current Encore defaults:
+
+- services: `backend/systems/**/encore.service.ts`
+- endpoints: exported `api(...)` declarations
+- topics: `backend/events/*.ts` with `new Topic(...)`
+- contracts: `backend/systems/_contracts/*.ts`
+- tests: `*.test.ts` / `*.contract.*` files with optional semantic JSDoc
+- mutation report: `reports/mutation/mutation.json`
+
+## React usage
+
 ```tsx
-import { GalaxyGraph, type GalaxyGraphDataset } from "@galaxy-graph/core";
+import { GalaxyGraph } from "@galaxy-graph/core";
 import "@galaxy-graph/core/style.css";
 
-export function BackendMap({ dataset }: { dataset: GalaxyGraphDataset }) {
-  return <GalaxyGraph dataset={dataset} />;
+export function ArchitectureView() {
+  return <GalaxyGraph />;
 }
 ```
 
-## Extraction philosophy
+The default render uses a small synthetic sample dataset. Apps can later pass generated datasets through the package API rather than importing app-specific generated files.
 
-The product boundary is:
+## Adapters
 
-1. adapters inspect backend code, tests, mutation reports, and docs;
-2. adapters emit normalized `GalaxyGraphDataset` JSON;
-3. `@galaxy-graph/core` renders that data without knowing the backend framework.
+Adapters emit the normalized `GalaxyGraphDataset` schema. The current MVP includes:
 
-This keeps the IP in the graph model, visual system, semantic docs discipline, and adapter ecosystem — not in a single framework-specific implementation.
+- **Encore adapter** — discovers services, endpoints, topics, contracts, and contract tests from TypeScript source.
+- **Stryker adapter** — aggregates mutation reports by service and maps file-level mutation results to endpoint keys where source context is available.
+- **JSDoc/TSDoc semantic extractor** — turns human intent comments into node narratives.
+
+Supported tags:
+
+```ts
+/**
+ * Human-readable body text.
+ * @summary One-line purpose.
+ * @why Why this exists architecturally/product-wise.
+ * @flow Step-by-step flow.
+ * @since Optional version/date marker.
+ * @story Test/contract story.
+ * @category contract | resilience | behaviour | edge-case | ...
+ */
+```
+
+See [`docs/schema.md`](docs/schema.md) and [`docs/adapters.md`](docs/adapters.md).
+
+## Verification
+
+Local checks expected before release:
+
+```bash
+npm ci
+npm run build
+npm run typecheck
+npm test
+npm audit --audit-level=moderate
+npm run pack:dry-run
+```
+
+The repo includes `.github/workflows/ci.yml` with the same checks. Badges that depend on GitHub Actions and npm publication are intentionally marked pre-public until the remote/package exists.
+
+## Public-readiness notes
+
+What is ready now:
+
+- monorepo package structure;
+- sanitized sample data and fixture data;
+- MIT license;
+- contributor/security/changelog docs;
+- CI workflow file;
+- unit and smoke tests for schema, JSDoc, Stryker, Encore fixture parsing, and CLI output;
+- npm package metadata and dry-run packing scripts.
+
+Remaining launch caveats:
+
+- the demo asset above is a generated public-safe SVG from the sample topology, not a browser screenshot; browser capture was not reliable in this sandbox;
+- Encore support is an MVP, not full framework parity;
+- endpoint-level mutation mapping is file-based and should become line/function-aware;
+- npm package names and GitHub URLs should be confirmed before publish.
+
+## Roadmap
+
+- Framework adapters: Express, NestJS, FastAPI/OpenAPI.
+- Line-aware Stryker mapping to endpoint/function ranges.
+- Dataset import prop/API for app-owned generated JSON.
+- AI-assisted JSDoc/TSDoc authoring command.
+- Hosted demo page after GitHub publication.
+
+## License
+
+MIT © Ben Sheridan Edwards.

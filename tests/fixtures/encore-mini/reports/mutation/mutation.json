@@ -1,0 +1,42 @@
+{
+  "files": {
+    "backend/systems/billing/billing.ts": {
+      "mutants": [
+        {
+          "status": "Killed",
+          "mutatorName": "StringLiteral",
+          "location": {
+            "start": {
+              "line": 4
+            }
+          },
+          "replacement": "/x"
+        },
+        {
+          "status": "Survived",
+          "mutatorName": "BooleanLiteral",
+          "location": {
+            "start": {
+              "line": 4
+            }
+          },
+          "replacement": "false"
+        }
+      ]
+    },
+    "backend/systems/notifications/notifications.ts": {
+      "mutants": [
+        {
+          "status": "Killed",
+          "mutatorName": "ObjectLiteral",
+          "location": {
+            "start": {
+              "line": 4
+            }
+          },
+          "replacement": "{}"
+        }
+      ]
+    }
+  }
+}

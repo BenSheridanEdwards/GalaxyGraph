@@ -30,5 +30,33 @@
   },
   "devDependencies": {
     "@types/three": "^0.169.0"
+  },
+  "description": "React renderer and normalized graph schema for Galaxy Graph",
+  "author": "Ben Sheridan Edwards",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BenSheridanEdwards/galaxy-graph.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/BenSheridanEdwards/galaxy-graph#readme",
+  "bugs": {
+    "url": "https://github.com/BenSheridanEdwards/galaxy-graph/issues"
+  },
+  "keywords": [
+    "galaxy-graph",
+    "react",
+    "threejs",
+    "3d-force-graph"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

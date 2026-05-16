@@ -18,5 +18,33 @@
   "dependencies": {
     "@galaxy-graph/core": "0.1.0",
     "typescript": "^5.5.0"
+  },
+  "description": "Adapters that turn backend source and reports into Galaxy Graph datasets",
+  "author": "Ben Sheridan Edwards",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BenSheridanEdwards/galaxy-graph.git",
+    "directory": "packages/adapters"
+  },
+  "homepage": "https://github.com/BenSheridanEdwards/galaxy-graph#readme",
+  "bugs": {
+    "url": "https://github.com/BenSheridanEdwards/galaxy-graph/issues"
+  },
+  "keywords": [
+    "galaxy-graph",
+    "encore",
+    "stryker",
+    "jsdoc"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

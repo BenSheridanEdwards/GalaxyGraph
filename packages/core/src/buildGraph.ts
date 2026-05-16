@@ -1,7 +1,7 @@
 import { SERVICES, ENDPOINTS, TESTS, CONTRACTS, TOPICS } from "./data";
 import { MUTATION } from "./mutation-data";
 import { COLORS } from "./helpers";
-import type { ContractDef, GraphLink, GraphNode, TestRef, TopicDef } from "./types";
+import type { ContractDef, GalaxyGraphDataset, GraphLink, GraphNode, TestRef, TopicDef } from "./types";
 
 export interface GraphData {
   nodes: GraphNode[];
@@ -19,14 +19,21 @@ export function bondNodeId(contractId: string): string {
   return `bond:${contractId}`;
 }
 
-export function buildGraph(): GraphData {
+export function buildGraph(dataset?: GalaxyGraphDataset): GraphData {
+  const services = dataset?.services ?? SERVICES;
+  const endpoints = dataset?.endpoints ?? ENDPOINTS;
+  const testsInput = dataset?.tests ?? TESTS;
+  const contracts = dataset?.contracts ?? CONTRACTS;
+  const topicsInput = dataset?.topics ?? TOPICS;
+  const mutation = dataset?.mutation ?? MUTATION;
+
   // per-endpoint test list and coverage proxy (= test count). Keyed by the
   // namespaced endpoint key `<svc>:<fnName>` so services with overlapping
   // function names (e.g. gamification.getProfile vs identity-core.getProfile)
   // don't collide.
   const epTests: Record<string, TestRef[]> = {};
-  ENDPOINTS.forEach((ep) => (epTests[ep.id.replace("ep:", "")] = []));
-  TESTS.forEach((t) =>
+  endpoints.forEach((ep) => (epTests[ep.id.replace("ep:", "")] = []));
+  testsInput.forEach((t) =>
     t.endpoints.forEach((key) => {
       if (epTests[key]) {
         epTests[key].push({ id: t.id, name: t.name, http: !!t.http, svc: t.svc });
@@ -38,7 +45,7 @@ export function buildGraph(): GraphData {
   const nodes: GraphNode[] = [];
   const links: GraphLink[] = [];
 
-  SERVICES.forEach((s) => {
+  services.forEach((s) => {
     nodes.push({
       id: s.id,
       name: s.svc,
@@ -47,12 +54,12 @@ export function buildGraph(): GraphData {
       file: s.file,
       val: 60,
       color: COLORS[s.svc],
-      mutation: MUTATION.services[s.svc],
+      mutation: mutation.services[s.svc],
       ...(s.narrative ? { narrative: s.narrative } : {}),
     });
   });
 
-  ENDPOINTS.forEach((ep) => {
+  endpoints.forEach((ep) => {
     const epKey = ep.id.replace("ep:", "");
     const tests = epTests[epKey];
     nodes.push({
@@ -69,13 +76,13 @@ export function buildGraph(): GraphData {
       tests,
       coverage: tests.length,
       coverageRatio: tests.length / maxCoverage,
-      mutation: MUTATION.endpoints[epKey],
+      mutation: mutation.endpoints[epKey],
       ...(ep.narrative ? { narrative: ep.narrative } : {}),
     });
     links.push({ source: "svc:" + ep.svc, target: ep.id, kind: "contains" });
   });
 
-  TESTS.forEach((t) => {
+  testsInput.forEach((t) => {
     nodes.push({
       id: t.id,
       name: t.name,
@@ -95,7 +102,7 @@ export function buildGraph(): GraphData {
   // Missing entries are fine — the topic card falls back to a synthetic
   // tagline derived from the contracts that share the topic.
   const topicDefs: Record<string, TopicDef> = Object.fromEntries(
-    TOPICS.map((t) => [t.topic, t])
+    topicsInput.map((t) => [t.topic, t])
   );
 
   // Cross-service contract bonds — derived from backend/systems/_contracts/*.
@@ -103,7 +110,7 @@ export function buildGraph(): GraphData {
   // Event-bus  : producer ──publishes──▶ topic ──consumes──▶ consumer.
   // Topics dedupe by id so multiple subscribers fan out from the same node.
   const topicIndex = new Map<string, GraphNode>();
-  CONTRACTS.forEach((c: ContractDef) => {
+  contracts.forEach((c: ContractDef) => {
     const srcSvc = `svc:${c.producer}`;
     const dstSvc = `svc:${c.consumer}`;
 
