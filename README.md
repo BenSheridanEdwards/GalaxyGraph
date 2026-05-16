@@ -4,9 +4,9 @@
 
 **Backend architecture, service intent, test confidence, contracts, events, and mutation score — rendered as an interactive galaxy.**
 
-[![CI](https://img.shields.io/badge/CI-ready%20when%20GitHub%20repo%20exists-2ea44f)](#verification)
+[![CI](https://github.com/BenSheridanEdwards/GalaxyGraph/actions/workflows/ci.yml/badge.svg)](https://github.com/BenSheridanEdwards/GalaxyGraph/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/badge/npm-pre--publish-orange)](#packages)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/github/license/BenSheridanEdwards/GalaxyGraph)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
 [![Adapters](https://img.shields.io/badge/adapters-Encore%20%7C%20Stryker%20%7C%20JSDoc-7c3aed)](#adapters)
 
@@ -120,7 +120,7 @@ npm audit --audit-level=moderate
 npm run pack:dry-run
 ```
 
-The repo includes `.github/workflows/ci.yml` with the same checks. Badges that depend on GitHub Actions and npm publication are intentionally marked pre-public until the remote/package exists.
+The repo includes `.github/workflows/ci.yml` with the same checks. The CI badge points at the public GitHub workflow. The npm badge remains pre-publish until the packages are released.
 
 ## Public-readiness notes
 
