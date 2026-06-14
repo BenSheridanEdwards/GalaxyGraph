@@ -14,7 +14,8 @@
     "dev": "npm -w @galaxy-graph/example-basic run dev",
     "test:watch": "vitest",
     "audit": "npm audit --audit-level=moderate",
-    "pack:dry-run": "npm -w @galaxy-graph/core pack --dry-run && npm -w @galaxy-graph/adapters pack --dry-run && npm -w @galaxy-graph/cli pack --dry-run"
+    "pack:dry-run": "npm -w @galaxy-graph/core pack --dry-run && npm -w @galaxy-graph/adapters pack --dry-run && npm -w @galaxy-graph/cli pack --dry-run",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -23,7 +24,9 @@
     "@vitejs/plugin-react": "^5.1.0",
     "typescript": "^5.5.0",
     "vite": "^7.2.4",
-    "vitest": "^4.0.14"
+    "vitest": "^4.0.14",
+    "husky": "^9.1.7",
+    "fallow": "^2.96.0"
   },
   "description": "Interactive backend architecture, confidence, and service-intent maps for TypeScript systems.",
   "license": "MIT",
