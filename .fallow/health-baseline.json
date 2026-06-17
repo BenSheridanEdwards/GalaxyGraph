@@ -1,0 +1,43 @@
+{
+  "finding_counts": {
+    "packages/adapters/src/encore.ts": {
+      "complexity_high": {
+        "count": 1
+      }
+    },
+    "packages/adapters/src/stryker.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "packages/core/src/ContractInfo.tsx": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "packages/core/src/GalaxyGraph.tsx": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "packages/core/src/InfoCard.tsx": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "packages/core/src/nodeTooltip.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    }
+  },
+  "runtime_coverage_findings": [],
+  "target_keys": [
+    "packages/core/src/nodeTooltip.ts:dead code",
+    "packages/core/src/buildGraph.ts:dead code",
+    "packages/core/src/GalaxyGraph.tsx:untested risk",
+    "packages/adapters/src/jsdoc.ts:high impact",
+    "packages/adapters/src/stryker.ts:high impact",
+    "packages/adapters/src/encore.ts:complexity"
+  ]
+}
