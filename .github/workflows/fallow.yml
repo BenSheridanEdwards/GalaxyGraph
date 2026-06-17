@@ -19,3 +19,12 @@ jobs:
           command: audit
           comment: true
           review-comments: true
+      # Coverage-independent complexity gate. Fails only on NEW functions over the
+      # cyclomatic/cognitive thresholds in .fallowrc.jsonc, beyond the committed
+      # baseline. Burn the backlog down, then regenerate the baseline to lock gains.
+      - name: Complexity gate
+        uses: fallow-rs/fallow@v2
+        with:
+          command: health
+          baseline: .fallow/health-baseline.json
+          fail-on-issues: true

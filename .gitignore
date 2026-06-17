@@ -7,3 +7,6 @@ coverage/
 .env.*
 !.env.example
 *.tsbuildinfo
+
+# fallow local cache
+.fallow/*.bin
