@@ -10,12 +10,12 @@ permissions:
   contents: read
 
 env:
-  RUNNER_TOOL_CACHE: /Users/agents/Agents/Shared/local-ci/toolcache
-  AGENT_TOOLSDIRECTORY: /Users/agents/Agents/Shared/local-ci/toolcache
+  RUNNER_TOOL_CACHE: ${{ runner.tool_cache }}
+  AGENT_TOOLSDIRECTORY: ${{ runner.tool_cache }}
 
 jobs:
   verify:
-    runs-on: [self-hosted, macOS, ARM64, chief-mac-mini, GalaxyGraph]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
